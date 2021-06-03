@@ -22,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VacationServiceImpl implements VacationService {
 
-    private final MessageService messageService;
+    private final MessageServiceImpl messageService;
 
     private final EmployeeServiceImpl employeeService;
 

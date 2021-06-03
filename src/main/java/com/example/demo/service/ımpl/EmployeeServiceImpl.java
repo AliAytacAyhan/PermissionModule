@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final MessageService messageService;
+    private final MessageServiceImpl messageService;
 
     private final EmployeeRepository employeeRepository;
 
