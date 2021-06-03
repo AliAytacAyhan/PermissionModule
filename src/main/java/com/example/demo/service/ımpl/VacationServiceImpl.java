@@ -8,6 +8,7 @@ import com.example.demo.model.Employee;
 import com.example.demo.model.Enums.VacationStatus;
 import com.example.demo.model.Vacation;
 import com.example.demo.repository.VacationRepository;
+import com.example.demo.service.MessageService;
 import com.example.demo.service.VacationService;
 import com.example.demo.util.Constants;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VacationServiceImpl implements VacationService {
 
-    private final MessageServiceImpl messageService;
+    private final MessageService messageService;
 
     private final EmployeeServiceImpl employeeService;
 

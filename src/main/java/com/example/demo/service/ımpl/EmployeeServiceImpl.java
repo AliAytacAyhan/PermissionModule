@@ -5,6 +5,7 @@ import com.example.demo.model.Vacation;
 import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.repository.VacationRepository;
 import com.example.demo.service.EmployeeService;
+import com.example.demo.service.MessageService;
 import com.example.demo.util.Constants;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final MessageServiceImpl messageService;
+    private final MessageService messageService;
 
     private final EmployeeRepository employeeRepository;
 
