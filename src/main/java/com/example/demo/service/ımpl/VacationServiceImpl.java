@@ -59,7 +59,7 @@ public class VacationServiceImpl implements VacationService {
 
     @Override
     public EvaluateVacationResponse evaluateVacation(@RequestBody EvaluateVacationRequest evaluateVacationRequest) {
-        final EvaluateVacationResponse vacationResponse = new EvaluateVacationResponse();//Todo :Response
+        final EvaluateVacationResponse vacationResponse = new EvaluateVacationResponse();
         final Employee employee = employeeService.findById(evaluateVacationRequest.getEmployeeId());
         final Optional<Vacation> vacationOptional = vacationRepository.findById(evaluateVacationRequest.getVacationId());
 

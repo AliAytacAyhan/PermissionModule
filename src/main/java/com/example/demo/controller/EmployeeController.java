@@ -20,8 +20,6 @@ public class EmployeeController {
 
     @GetMapping(value="get-all")
     public List<Employee> getEmployees(){
-        //TODO : Mapper kullan
-        //Todo: Sl4fj
         return employeeService.getEmployees();
     }
 
