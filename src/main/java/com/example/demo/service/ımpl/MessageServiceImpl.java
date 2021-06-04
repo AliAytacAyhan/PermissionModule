@@ -12,7 +12,7 @@ public class MessageServiceImpl implements MessageService {
 
     private final MessageSource messageSource;
 
-    public String getMessage(String input, Object... objects){
+    public String getMessage(String input, Object... objects) {
         return messageSource.getMessage(input, objects, LocaleContextHolder.getLocale());
     }
 

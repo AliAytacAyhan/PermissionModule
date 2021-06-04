@@ -11,5 +11,4 @@ public class ApiPaths {
     public static final class VacationCtrl {
         public static final String CTRL = BASE_PATH + "/vacation";
     }
-
 }

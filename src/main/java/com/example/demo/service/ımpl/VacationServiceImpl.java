@@ -7,7 +7,6 @@ import com.example.demo.dto.VacationResponse;
 import com.example.demo.model.Employee;
 import com.example.demo.model.Enums.VacationStatus;
 import com.example.demo.model.Vacation;
-import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.repository.VacationRepository;
 import com.example.demo.service.MessageService;
 import com.example.demo.service.VacationService;
@@ -18,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -29,8 +30,6 @@ public class VacationServiceImpl implements VacationService {
     private final EmployeeServiceImpl employeeService;
 
     private final VacationRepository vacationRepository;
-
-    private EmployeeRepository employeeRepository;
 
     private static final String TOO_MUCH_DAYS = "com.vacation.too.much.days";
 
@@ -46,11 +45,20 @@ public class VacationServiceImpl implements VacationService {
 
     @Override
     public VacationResponse requestVacation(VacationRequest vacationRequest) {
+
         final VacationResponse vacationResponse = new VacationResponse();
         final Employee employee = employeeService.findById(vacationRequest.getEmployeeId());
+
+        if (vacationRequest.getNumberOfDays() > employee.getVacationDaysEarned()) {
+            vacationResponse.setMessage(messageService.getMessage(TOO_MUCH_DAYS));
+            return vacationResponse;
+        }
+
         final Long vacationDaysEarned = employee.getVacationDaysEarned();
         employee.setVacationDaysEarned(vacationDaysEarned - vacationRequest.getNumberOfDays());
         final Vacation vacation = new Vacation();
+        vacation.setVacationStartDate(vacationRequest.getVacationStartDate());
+        vacation.setVacationEndDate(calculateEndDate(vacationRequest.getNumberOfDays(), vacationRequest.getVacationStartDate()));
         vacation.setEmployeeId(vacationRequest.getEmployeeId());
         vacation.setVacationDaysToUse(vacationRequest.getNumberOfDays());
         vacation.setVacationStatus(VacationStatus.WAITING);
@@ -90,21 +98,28 @@ public class VacationServiceImpl implements VacationService {
                     vacation.setVacationStatus(VacationStatus.GRANTED);
                     vacationRepository.save(vacation);
                 }
-            }
-            if (vacation.getVacationDaysToUse() > employee.getVacationDaysEarned()) {
-                vacationResponse.setMessage(messageService.getMessage(TOO_MUCH_DAYS));
-                vacation.setVacationStatus(VacationStatus.REJECTED);
-                vacationRepository.save(vacation);
-                logger.info(messageService.getMessage(TOO_MUCH_DAYS));
             } else {
                 vacationResponse.setMessage(messageService.getMessage(VACATION_GRANTED));
+                vacationResponse.setVacationStartDate(vacation.getVacationStartDate());
+                vacationResponse.setVacationEndDate(vacation.getVacationEndDate());
                 vacation.setVacationStatus(VacationStatus.GRANTED);
+
                 vacationRepository.save(vacation);
                 logger.info(messageService.getMessage(VACATION_GRANTED));
             }
         }
         return vacationResponse;
     }
+
+    private LocalDate calculateEndDate(Long numberOfDays, LocalDate vacationStartDate) {
+        LocalDate vacationEndDate = vacationStartDate;
+        int addedDays = 0;
+        while (addedDays < numberOfDays.intValue()) {
+            vacationEndDate = vacationEndDate.plusDays(1);
+            if (!(vacationEndDate.getDayOfWeek() == DayOfWeek.SATURDAY || vacationEndDate.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+                ++addedDays;
+            }
+        }
+        return vacationEndDate.minusDays(1);
+    }
 }
-
-

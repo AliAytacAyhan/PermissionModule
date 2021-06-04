@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-
 import com.example.demo.model.Employee;
 import com.example.demo.service.EmployeeService;
 import com.example.demo.util.ApiPaths;
@@ -18,24 +17,23 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    @GetMapping(value="get-all")
-    public List<Employee> getEmployees(){
+    @GetMapping(value = "/get-all")
+    public List<Employee> getEmployees() {
         return employeeService.getEmployees();
     }
 
-    @GetMapping(value="get/{id}")
-    public Employee getEmployeeById(@PathVariable String id){
+    @GetMapping(value = "/get/{id}")
+    public Employee getEmployeeById(@PathVariable String id) {
         return employeeService.findById(id);
     }
 
-    @PostMapping(value="save-employee")
-    public Employee saveEmployee(@RequestBody Employee employee){
+    @PostMapping(value = "/save-employee")
+    public Employee saveEmployee(@RequestBody Employee employee) {
         return employeeService.saveEmployee(employee);
     }
 
-    @DeleteMapping(value="{id}")
-    public void deleteEmployee(@PathVariable String id){
+    @DeleteMapping(value = "/{id}")
+    public void deleteEmployee(@PathVariable String id) {
         employeeService.deleteEmployee(id);
     }
-
 }

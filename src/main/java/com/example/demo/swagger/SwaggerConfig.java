@@ -17,7 +17,6 @@ import java.time.LocalDate;
 @EnableSwagger2
 public class SwaggerConfig {
 
-
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Permision Application API Reference")
@@ -37,5 +36,4 @@ public class SwaggerConfig {
                 .directModelSubstitute(LocalDate.class, String.class)
                 .genericModelSubstitutes(ResponseEntity.class);
     }
-
 }

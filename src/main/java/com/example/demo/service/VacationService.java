@@ -10,5 +10,4 @@ public interface VacationService {
     VacationResponse requestVacation(VacationRequest vacationRequest);
 
     EvaluateVacationResponse evaluateVacation(EvaluateVacationRequest evaluateVacationRequest);
-
 }

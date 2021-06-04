@@ -26,15 +26,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final VacationRepository vacationRepository;
 
-    private static final String EMPLOYEE_SAVED ="com.employee.is.saved";
+    private static final String EMPLOYEE_SAVED = "com.employee.is.saved";
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
     @Override
     public List<Employee> getEmployees() {
-        final List<Employee> employees =employeeRepository.findAll();
+        final List<Employee> employees = employeeRepository.findAll();
         employees.forEach(employee ->
-        employee.setVacationList(vacationRepository.findByEmployeeId(employee.getId())));
+                employee.setVacationList(vacationRepository.findByEmployeeId(employee.getId())));
         return employees;
     }
 
@@ -42,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee findById(String id) {
         final Optional<Employee> employeeOptional = employeeRepository.findById(id);
         final List<Vacation> vacations = vacationRepository.findByEmployeeId(id);
-        employeeOptional.get().setVacationList(vacations);
+        employeeOptional.ifPresent(employee -> employee.setVacationList(vacations));
         return employeeOptional.orElse(null);
     }
 

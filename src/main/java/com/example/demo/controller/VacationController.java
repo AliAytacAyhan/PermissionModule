@@ -19,14 +19,12 @@ public class VacationController {
     private final VacationService vacationService;
 
     @PostMapping
-    public VacationResponse requestVacation(@RequestBody VacationRequest vacationRequest){
+    public VacationResponse requestVacation(@RequestBody VacationRequest vacationRequest) {
         return vacationService.requestVacation(vacationRequest);
     }
 
     @PutMapping
-    public EvaluateVacationResponse evaluateVacation(@RequestBody EvaluateVacationRequest evaluateVacationRequest){
-       return vacationService.evaluateVacation(evaluateVacationRequest);
+    public EvaluateVacationResponse evaluateVacation(@RequestBody EvaluateVacationRequest evaluateVacationRequest) {
+        return vacationService.evaluateVacation(evaluateVacationRequest);
     }
-
-
 }
