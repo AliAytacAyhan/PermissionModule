@@ -28,7 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private static final String EMPLOYEE_SAVED ="com.employee.is.saved";
 
-    private static Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
     @Override
     public List<Employee> getEmployees() {
@@ -67,7 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private Long calculatePermissionDays(final Long workedYear) {
-        Long permissionDays;
+        long permissionDays;
 
         if (workedYear <= Constants.WORKED_YEAR_FIVE) {
             permissionDays = Constants.PERMISSION_DAYS_FIFTEEN * workedYear;

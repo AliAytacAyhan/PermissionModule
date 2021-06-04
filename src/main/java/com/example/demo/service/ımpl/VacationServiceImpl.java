@@ -7,6 +7,7 @@ import com.example.demo.dto.VacationResponse;
 import com.example.demo.model.Employee;
 import com.example.demo.model.Enums.VacationStatus;
 import com.example.demo.model.Vacation;
+import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.repository.VacationRepository;
 import com.example.demo.service.MessageService;
 import com.example.demo.service.VacationService;
@@ -29,6 +30,8 @@ public class VacationServiceImpl implements VacationService {
 
     private final VacationRepository vacationRepository;
 
+    private EmployeeRepository employeeRepository;
+
     private static final String TOO_MUCH_DAYS = "com.vacation.too.much.days";
 
     private static final String VACATION_WAITING = "com.vacation.waiting.message";
@@ -39,7 +42,7 @@ public class VacationServiceImpl implements VacationService {
 
     private static final String ONE_YEAR_EMPLOYEE_TOO_MUCH_DAYS = "com.vacation.new.employee.too.much.days.message";
 
-    private static Logger logger = LoggerFactory.getLogger(VacationServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(VacationServiceImpl.class);
 
     @Override
     public VacationResponse requestVacation(VacationRequest vacationRequest) {
@@ -48,7 +51,7 @@ public class VacationServiceImpl implements VacationService {
         final Long vacationDaysEarned = employee.getVacationDaysEarned();
         employee.setVacationDaysEarned(vacationDaysEarned - vacationRequest.getNumberOfDays());
         final Vacation vacation = new Vacation();
-        vacation.setEmployee(employee);
+        vacation.setEmployeeId(vacationRequest.getEmployeeId());
         vacation.setVacationDaysToUse(vacationRequest.getNumberOfDays());
         vacation.setVacationStatus(VacationStatus.WAITING);
         Vacation savedVacation = vacationRepository.save(vacation);
@@ -71,6 +74,9 @@ public class VacationServiceImpl implements VacationService {
                 employee.setVacationDaysEarned(vacationDaysEarned + vacation.getVacationDaysToUse());
                 vacationResponse.setMessage(messageService.getMessage(VACATION_REJECTED));
                 logger.info(messageService.getMessage(VACATION_REJECTED));
+                vacation.setVacationStatus(VacationStatus.REJECTED);
+                vacationRepository.save(vacation);
+                return vacationResponse;
             }
 
             if (Constants.ZERO.equals(employee.getWorkedYear())) {

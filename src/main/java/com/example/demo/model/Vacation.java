@@ -24,7 +24,6 @@ public class Vacation {
     @Enumerated(EnumType.STRING)
     private VacationStatus vacationStatus;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Employee employee;
+    @Column(name = "employee_id")
+    private String employeeId;
 }
