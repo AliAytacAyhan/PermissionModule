@@ -57,9 +57,9 @@ public class VacationServiceImpl implements VacationService {
         final Long vacationDaysEarned = employee.getVacationDaysEarned();
         employee.setVacationDaysEarned(vacationDaysEarned - vacationRequest.getNumberOfDays());
         final Vacation vacation = new Vacation();
+        vacation.setEmployee(employee);
         vacation.setVacationStartDate(vacationRequest.getVacationStartDate());
         vacation.setVacationEndDate(calculateEndDate(vacationRequest.getNumberOfDays(), vacationRequest.getVacationStartDate()));
-        vacation.setEmployeeId(vacationRequest.getEmployeeId());
         vacation.setVacationDaysToUse(vacationRequest.getNumberOfDays());
         vacation.setVacationStatus(VacationStatus.WAITING);
         Vacation savedVacation = vacationRepository.save(vacation);

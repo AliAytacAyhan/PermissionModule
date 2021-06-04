@@ -41,6 +41,6 @@ public class Employee {
     @DateTimeFormat(style = "yyyy-MM-dd")
     private LocalDate startedYear;
 
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
     private List<Vacation> vacationList;
 }

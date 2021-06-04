@@ -24,12 +24,13 @@ public class Vacation {
     @Enumerated(EnumType.STRING)
     private VacationStatus vacationStatus;
 
-    @Column(name = "employee_id")
-    private String employeeId;
-
     @Column(name = "vacation_start_date")
     private LocalDate vacationStartDate;
 
     @Column(name = "vacation_end_date")
     private LocalDate vacationEndDate;
+
+    @ManyToOne(targetEntity = Employee.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 }
